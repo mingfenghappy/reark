@@ -25,11 +25,9 @@
  */
 package io.reark.rxgithubapp.shared.utils;
 
-import com.squareup.okhttp.OkHttpClient;
-
+import okhttp3.OkHttpClient;
 import org.junit.Before;
 import org.junit.Test;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
@@ -45,10 +43,7 @@ public class NullNetworkInstrumentationTest {
     @Test
     public void testDecorateNetwork_DoesNotChangeTheHttpClient() {
         OkHttpClient okHttpClient = mock(OkHttpClient.class);
-
         instrumentation.decorateNetwork(okHttpClient);
-
         verifyZeroInteractions(okHttpClient);
     }
-
 }

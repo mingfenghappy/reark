@@ -28,13 +28,10 @@ package io.reark.rxgithubapp.shared.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
-
-import com.squareup.okhttp.Interceptor;
-import com.squareup.okhttp.OkHttpClient;
-
 import io.reark.reark.utils.Preconditions;
 import io.reark.rxgithubapp.shared.network.NetworkInstrumentation;
-
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 import static com.facebook.stetho.Stetho.defaultDumperPluginsProvider;
 import static com.facebook.stetho.Stetho.defaultInspectorModulesProvider;
 import static com.facebook.stetho.Stetho.initialize;
@@ -48,7 +45,8 @@ public class StethoInstrumentation implements NetworkInstrumentation<OkHttpClien
     @NonNull
     private final Interceptor interceptor;
 
-    public StethoInstrumentation(@NonNull Context context, @NonNull Interceptor interceptor) {
+    public StethoInstrumentation(@NonNull Context context,
+                                 @NonNull Interceptor interceptor) {
         Preconditions.checkNotNull(context, "Context cannot be null.");
         Preconditions.checkNotNull(interceptor, "Interceptor cannot be null.");
 
@@ -73,18 +71,6 @@ public class StethoInstrumentation implements NetworkInstrumentation<OkHttpClien
     @NonNull
     public OkHttpClient decorateNetwork(@NonNull final OkHttpClient httpClient) {
         Preconditions.checkNotNull(httpClient, "Http Client cannot be null.");
-
-        addInterceptor(httpClient, interceptor);
-
-        return httpClient;
+        return httpClient.newBuilder().addNetworkInterceptor(interceptor).build();
     }
-
-    @VisibleForTesting
-    void addInterceptor(@NonNull OkHttpClient httpClient, @NonNull Interceptor interceptor) {
-        Preconditions.checkNotNull(httpClient, "Http Client cannot be null.");
-        Preconditions.checkNotNull(interceptor, "Interceptor cannot be null.");
-
-        httpClient.networkInterceptors().add(interceptor);
-    }
-
 }
