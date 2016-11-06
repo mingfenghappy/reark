@@ -28,16 +28,18 @@ package io.reark.rxgithubapp.shared.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
+
 import io.reark.reark.utils.Preconditions;
 import io.reark.rxgithubapp.shared.network.NetworkInstrumentation;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+
 import static com.facebook.stetho.Stetho.defaultDumperPluginsProvider;
 import static com.facebook.stetho.Stetho.defaultInspectorModulesProvider;
 import static com.facebook.stetho.Stetho.initialize;
 import static com.facebook.stetho.Stetho.newInitializerBuilder;
 
-public class StethoInstrumentation implements NetworkInstrumentation<OkHttpClient> {
+public class StethoInstrumentation implements NetworkInstrumentation<OkHttpClient.Builder> {
 
     @NonNull
     private final Context context;
@@ -68,9 +70,11 @@ public class StethoInstrumentation implements NetworkInstrumentation<OkHttpClien
                         .build());
     }
 
+    @Override
     @NonNull
-    public OkHttpClient decorateNetwork(@NonNull final OkHttpClient httpClient) {
+    public OkHttpClient.Builder decorateNetwork(@NonNull final OkHttpClient.Builder httpClient) {
         Preconditions.checkNotNull(httpClient, "Http Client cannot be null.");
-        return httpClient.newBuilder().addNetworkInterceptor(interceptor).build();
+
+        return httpClient.addNetworkInterceptor(interceptor);
     }
 }

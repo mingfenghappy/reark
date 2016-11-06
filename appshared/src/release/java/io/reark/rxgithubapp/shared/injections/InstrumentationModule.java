@@ -47,7 +47,7 @@ public class InstrumentationModule {
 
     @Provides
     @Singleton
-    public NetworkInstrumentation<OkHttpClient> providesNetworkInstrumentation() {
+    public NetworkInstrumentation<OkHttpClient.Builder> providesNetworkInstrumentation() {
         return new NullNetworkInstrumentation();
     }
 }

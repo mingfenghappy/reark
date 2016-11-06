@@ -29,11 +29,11 @@ import android.support.annotation.NonNull;
 import io.reark.rxgithubapp.shared.network.NetworkInstrumentation;
 import okhttp3.OkHttpClient;
 
-public class NullNetworkInstrumentation implements NetworkInstrumentation<OkHttpClient> {
+public class NullNetworkInstrumentation implements NetworkInstrumentation<OkHttpClient.Builder> {
     @NonNull
     @Override
-    public OkHttpClient decorateNetwork(@NonNull OkHttpClient httpClient) {
-        return httpClient.newBuilder().build();
+    public OkHttpClient.Builder decorateNetwork(@NonNull OkHttpClient.Builder httpClient) {
+        return httpClient;
     }
 
     @Override

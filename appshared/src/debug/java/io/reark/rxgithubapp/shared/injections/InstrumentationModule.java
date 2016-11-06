@@ -64,7 +64,7 @@ public class InstrumentationModule {
 
     @Provides
     @Singleton
-    public NetworkInstrumentation<OkHttpClient> providesNetworkInstrumentation(StethoInstrumentation instrumentation) {
+    public NetworkInstrumentation<OkHttpClient.Builder> providesNetworkInstrumentation(StethoInstrumentation instrumentation) {
         return instrumentation;
     }
 
